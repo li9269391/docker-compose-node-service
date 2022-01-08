@@ -4,25 +4,28 @@
 
 > 确保部署之前，服务器已安装好 docker 和 docker-compose
 
-
 #### 部署
 
 进入项目目录
+
 ```sh
-$ cd ./node
+$ cd ./express
 ```
 
 构建镜像
+
 ```sh
 $ docker-compose build --force-rm
 ```
 
 启动服务
+
 ```sh
 $ docker-compose up --scale node=5
 ```
 
 访问
+
 ```sh
 http://你的服务器IP地址:7000
 ```
