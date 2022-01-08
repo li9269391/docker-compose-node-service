@@ -20,7 +20,7 @@ services:
   nginx:
     image: nginx:latest #指定 nginx 镜像
     ports:
-      # 将本机的 8080 端口映射到容器的80端口
+      # 将本机的 7000 端口映射到容器的 80 端口
       - "7000:80"
     container_name: nginx-node
     restart: always
