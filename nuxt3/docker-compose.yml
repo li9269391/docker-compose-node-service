@@ -1,0 +1,40 @@
+version: "3"
+services:
+    # 服务
+    node:
+        # node 服务
+        build: . # Dockerfile 的目录，用于构建镜像
+        # container_name: app-server-1 # 容器名称
+        # ports:
+        #     - "3000:3000" # 暴露的端口
+        expose:
+            - "3000"
+        restart: always # 自动重启
+        environment:
+            - NODE_ENV=production
+            - HOST=0.0.0.0
+        networks:
+            - my-network # 加入网络
+        command: yarn start # 覆盖容器启动后默认执行的命令
+    nginx:
+        image: nginx:1.19.7 # 指定 nginx 镜像
+        ports:
+            - 7000:80 # 将本机的 7001 端口映射到容器的80端口
+        container_name: nginx-node
+        restart: always
+        volumes:
+            # 映射本机 /etc/nginx/conf.d 目录到 容器的 /etc/nginx/conf.d 目录
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        networks:
+            - my-network
+        links:
+            # 设置 node 服务别名，其实是设置/etc/hosts的域名解析
+            - node
+        depends_on:
+            # 指定依赖于哪个服务
+            - node
+networks:
+    # 网络
+    my-network:
+        # 网络名称
+        driver: bridge
